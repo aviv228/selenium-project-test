@@ -47,35 +47,6 @@ public abstract class SeleniumFunctions {
 		return this.driver.findElements(by).size() > 0;
 	}
 
-	protected boolean isElementPresent(final WebElement element) {
-		try {
-			element.getTagName();
-		} catch (final NoSuchElementException ignored) {
-			return false;
-		} catch (final StaleElementReferenceException ignored) {
-			return false;
-		}
-		return true;
-	}
-
-	protected boolean isElementVisible(final By by) {
-		return this.driver.findElement(by).isDisplayed();
-	}
-
-	protected boolean isElementVisible(final WebElement element) {
-		return element.isDisplayed();
-	}
-
-	protected boolean isAnyTextPresent(final By by) {
-		final String text = this.driver.findElement(by).getText();
-		return StringUtils.isNotBlank(text);
-	}
-
-	protected boolean isAnyTextPresent(final WebElement element) {
-		final String text = element.getText();
-		return StringUtils.isNotBlank(text);
-	}
-
 	protected void waitForElement(final WebElement element) {
 		this.waitForElement(element, ELEMENT_WAIT_TIMEOUT_IN_SECONDS);
 	}
@@ -94,20 +65,6 @@ public abstract class SeleniumFunctions {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 	}
 
-	protected void waitForElementIsInvisible(final By by) {
-		final WebDriverWait wait = new WebDriverWait(this.driver, ELEMENT_WAIT_TIMEOUT_IN_SECONDS);
-		wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
-	}
-
-    protected void waitForTextToAppear(final String textToAppear, final WebElement element) {
-        final WebDriverWait wait = new WebDriverWait(this.driver, ELEMENT_WAIT_TIMEOUT_IN_SECONDS);
-        wait.until(ExpectedConditions.textToBePresentInElement(element, textToAppear));
-    }
-
-    protected void waitForUrlPart(final String urlPart) {
-        final WebDriverWait wait = new WebDriverWait(this.driver, ELEMENT_WAIT_TIMEOUT_IN_SECONDS);
-        wait.until(ExpectedConditions.urlContains(urlPart));
-    }
 
     protected void waitForPageLoad() {
 		waitForPageLoad(PAGE_WAIT_TIMEOUT_IN_SECONDS);
@@ -115,15 +72,6 @@ public abstract class SeleniumFunctions {
 
     protected void waitForPageLoad(final int timeoutInSeconds) {
 		waitForElement(By.tagName("html"), timeoutInSeconds);
-	}
-
-	protected String xpathFinder(final String... xpathList) {
-		for (final String xpath : xpathList) {
-			if (isElementPresent(By.xpath(xpath))) {
-				return xpath;
-			}
-		}
-		return null;
 	}
 
 	protected String getTitleName(){
@@ -174,7 +122,5 @@ public abstract class SeleniumFunctions {
 		}
 		return by;
 	}
-
-
 
 }
